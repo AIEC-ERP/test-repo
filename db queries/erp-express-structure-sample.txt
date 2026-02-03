@@ -1,0 +1,67 @@
+erp-backend/
+├── src/
+│   ├── config/             # Database connection & Env variables
+│   ├── controllers/        # Handles HTTP requests/responses (req, res)
+│   ├── services/           # CORE BUSINESS LOGIC (ERP rules go here)
+│   ├── models/             # Database queries (SQL/Sequelize/Knex)
+│   ├── middlewares/        # Auth, Validation, Error Handling
+│   ├── routes/             # API endpoint definitions
+│   ├── utils/              # Helper functions (date formatting, etc.)
+│   └── app.js              # Entry point
+├── .env                    # Secret keys and DB credentials
+├── .gitignore
+├── package.json
+└── README.md
+
+
+
+src/
+├── controllers/
+│   └── employeeController.js   # Logic to parse req and send res
+├── services/
+│   └── employeeService.js     # Orchestrates business logic/validation
+├── models/
+│   └── employeeModel.js       # Pure SQL queries
+├── routes/
+│   └── employeeRoutes.js     # API route definitions
+└── middlewares/
+    └── validateEmployee.js    # Data validation (using Joi or Zod)
+
+Service.js:
+const empModel = require('../models/employeeModel');
+
+const createEmployee = async (employeeData) => {
+    // 1. Check if Employee ID already exists
+    const existing = await empModel.findById(employeeData.AtlasEmpID);
+    if (existing) throw new Error('Employee ID already exists');
+
+    // 2. Perform Insert
+    return await empModel.create(employeeData);
+};
+
+const updateEmployee = async (id, updateData) => {
+    // 3. Logic: Ensure we don't change the AtlasEmpID (usually immutable)
+    delete updateData.AtlasEmpID; 
+    return await empModel.update(id, updateData);
+};
+
+module.exports = { createEmployee, updateEmployee, getEmployee: empModel.findById };
+
+
+models.js:
+const pool = require('../config/db');
+
+const findById = async (id) => {
+    const [rows] = await pool.execute('SELECT * FROM employees WHERE AtlasEmpID = ?', [id]);
+    return rows[0];
+};
+
+const create = async (data) => {
+    const sql = `INSERT INTO employees (AtlasEmpID, EmpName, Email, Designation, JoiningDate) VALUES (?, ?, ?, ?, ?)`;
+    const params = [data.AtlasEmpID, data.EmpName, data.Email, data.Designation, data.JoiningDate];
+    const [result] = await pool.execute(sql, params);
+    return result.insertId;
+};
+
+module.exports = { findById, create };
+

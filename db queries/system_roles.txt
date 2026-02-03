@@ -1,0 +1,19 @@
+CREATE TABLE system_roles (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    role_name VARCHAR(70) UNIQUE NOT NULL,
+    description VARCHAR(400) DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO system_roles (role_name, description) VALUES 
+('DIRECTOR', 'CEO to view all the dashboards'),
+('SUPER_ADMIN',     'IT & System Configuration'),
+('HR_MANAGER',      'HR Head - Salaries & People'),
+('FINANCE_MANAGER', 'Finance Head - Treasury & Payouts'),
+('ACCOUNTANT',      'Accountant - Records & Vouchers'),
+('TENDER_MANAGER',    'Tender Head - Pricing & Submission'),
+('TENDER_ADMIN',     'Tender Staff - Estimation'),
+('PROJECT_MANAGER',     'Project Leads - Operational Approvals and General Managers'),
+('EMPLOYEE',        'General Staff - Self Service');
