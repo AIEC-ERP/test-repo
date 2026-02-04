@@ -1,5 +1,5 @@
 import express from "express";
-import {loginAuthenticate} from "./controller.js";
+import {loginAuthenticate,refreshAuthToken} from "./controller.js";
 const router = express.Router();
 
 router.post("/auth/login", loginAuthenticate);
@@ -8,5 +8,7 @@ router.post("/auth/login", loginAuthenticate);
 //     username: "",
 //     password:""
 // }
+router.get("/auth/refresh",refreshAuthToken);
+
 
 export default router;

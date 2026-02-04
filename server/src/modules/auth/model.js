@@ -11,3 +11,18 @@ export const updateRefreshToken = async (token,id) => {
     const [rows] = await db.query(query,[token,id]);
     return rows;
 }
+
+export const findUserByRefreshToken = async (token) => {
+    const query = `SELECT users.id, users.username, users.role_id, system_roles.role_name 
+        FROM users 
+        INNER JOIN system_roles ON users.role_id = system_roles.id
+        WHERE refresh_token = ?`;
+    const [rows] = await db.query(query,[token]);
+    return rows;
+}
+
+export const userLogoutQuery = async (token) => {
+    const query = `UPDATE users SET refresh_token = NULL WHERE refresh_token = ?`;
+    const [rows] = await db.query(query,[token]);
+    return rows;
+}
