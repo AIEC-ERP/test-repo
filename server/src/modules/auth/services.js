@@ -65,5 +65,6 @@ if (user.length === 0) {
 }
 
 export const Logout = async (token)=>{
-  
+    const result = await userLogoutQuery(token);
+    return result
 }

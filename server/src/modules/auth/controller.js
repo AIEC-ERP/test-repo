@@ -23,7 +23,7 @@ export const loginAuthenticate = async (req, res) => {
       },
     });
   } catch (error) {
-    if (error.message === "INVALID_CREDENTIALS") {
+    if (error.message === "Invalid credentials") {
       return res
         .status(401)
         .json({ success: false, message: "Invalid credentials" });
@@ -65,8 +65,23 @@ export const refreshAuthToken = async (req, res) => {
 
 export const userLogout = async (req,res) =>{
   const cookies = req.cookies;
-    if (!cookies?.jwt) {
-        // No content to send back, user is already "logged out" locally
-        return res.sendStatus(204); 
+    if (!cookies?.refresh_token) {
+        return res.status(204).json({success:true, message:"User is logged out Successfully"}); 
     }
+    try {
+       const refresh_token = cookies.refresh_token;
+    const result = await Logout(refresh_token);
+    console.log("result",result);
+     res.clearCookie('refresh_token', { 
+        httpOnly: true, 
+        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', 
+        secure: process.env.NODE_ENV === 'production',
+        path: '/api/auth/'
+    });
+    return  res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+      console.log("Error occured during logout",error);
+      return res.status(400).json({success:false, message:"Error during logout",error:error})
+    }
+   
 }
