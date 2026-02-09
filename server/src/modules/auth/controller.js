@@ -71,7 +71,6 @@ export const userLogout = async (req,res) =>{
     try {
        const refresh_token = cookies.refresh_token;
     const result = await Logout(refresh_token);
-    console.log("result",result);
      res.clearCookie('refresh_token', { 
         httpOnly: true, 
         sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', 

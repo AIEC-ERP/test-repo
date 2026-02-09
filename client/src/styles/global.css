@@ -1,0 +1,37 @@
+@layer components {
+  /* A standard container for all ERP pages to keep margins consistent */
+  .page-container {
+    @apply p-6 lg:p-8 max-w-[1600px] mx-auto w-full;
+  }
+
+  /* A grid layout used for Dashboard Stats Cards */
+  .stats-grid {
+    @apply grid gap-4 md:grid-cols-2 lg:grid-cols-4;
+  }
+
+  /* Standardizing the "Surface" or "Card" look */
+  .erp-card {
+    @apply rounded-xl border bg-card text-card-foreground shadow-sm p-6;
+  }
+}
+
+@layer utilities {
+  /* Custom Scrollbar for a modern ERP look */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full hover:bg-muted-foreground/30 transition-colors;
+  }
+
+  /* Helper to hide scrollbars but keep functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

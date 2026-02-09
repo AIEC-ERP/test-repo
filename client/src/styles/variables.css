@@ -1,0 +1,55 @@
+:root {
+    
+  --color-primary: #4F46E5;       
+  --color-primary-hover: #4338CA; 
+  
+  --color-secondary: #64748B;     
+  --color-secondary-hover: #475569;
+
+  /* --------------------------------------------------
+     2. SEMANTIC COLORS (The Communication)
+     -------------------------------------------------- */
+  --color-success: #10B981; /* Emerald 500 (Better than harsh green) */
+  --color-danger:  #EF4444; /* Red 500 */
+  --color-warning: #F59E0B; /* Amber 500 */
+  --color-info:    #3B82F6; /* Blue 500 */
+
+  /* --------------------------------------------------
+     3. NEUTRALS (Text & Backgrounds)
+     -------------------------------------------------- */
+  /* Backgrounds */
+  --bg-body:       #F8FAFC; /* Slate 50 (Very light gray, never pure white) */
+  --bg-surface:    #FFFFFF; /* Pure white for Cards/Modals */
+  --bg-input:      #FFFFFF; 
+
+  /* Text */
+  --text-main:     #0F172A; /* Slate 900 (Nearly black) */
+  --text-muted:    #64748B; /* Slate 500 (For labels/secondary text) */
+  --text-light:    #CBD5E1; /* Slate 300 (For placeholders) */
+
+  /* Borders */
+  --border-light:  #E2E8F0; /* Slate 200 (Subtle dividers) */
+  --border-focus:  #4F46E5; /* Matches Primary */
+
+  /* --------------------------------------------------
+     4. SPACING & SIZING (The Grid)
+     -------------------------------------------------- */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem;  /* 8px */
+  --spacing-md: 1rem;    /* 16px (Base) */
+  --spacing-lg: 1.5rem;  /* 24px */
+  --spacing-xl: 2rem;    /* 32px */
+
+  /* --------------------------------------------------
+     5. SHAPE (Border Radius)
+     -------------------------------------------------- */
+  --radius-sm: 4px;  /* For inputs/buttons */
+  --radius-md: 8px;  /* For cards/modals */
+  --radius-full: 9999px; /* For rounded badges */
+
+  /* --------------------------------------------------
+     6. SHADOWS (Depth)
+     -------------------------------------------------- */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
