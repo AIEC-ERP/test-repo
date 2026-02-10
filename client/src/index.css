@@ -1,18 +1,15 @@
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
-/* Import your custom logic */
-@import "./styles/variables.css";
-@import "./styles/typography.css";
-@import "./styles/global.css";
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
 
-/* shadcn generated :root variables go here... */
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --primary: 243 75% 59%;
-    /* ... rest of shadcn vars */
-  }
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
