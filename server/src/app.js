@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 //Sample endpoint to test the server's health
 app.get('/api/health', (req, res) => {
-    res.status(200).json({ status: 200, message: 'Server is healthy' });
+    res.status(200).json({ message: 'Server is healthy' });
 });
 
 app.use("/api",authRoutes);

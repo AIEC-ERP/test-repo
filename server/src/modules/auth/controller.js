@@ -31,7 +31,7 @@ export const loginAuthenticate = async (req, res) => {
     console.log("Login Error:", error);
     return res
       .status(500)
-      .json({ success: false, message: "Internal Server Error", error: error });
+      .json({ success: false, message: "Internal Server Error"});
   }
 };
 
