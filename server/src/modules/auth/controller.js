@@ -44,7 +44,7 @@ export const refreshAuthToken = async (req, res) => {
       .json({ success: false, message: "Missing refresh Token" });
   }
   try {
-    const RefreshToken = cookies.jwt;
+    const RefreshToken = cookies.refresh_token;
     const newAccessToken = await refreshUserToken(RefreshToken);
     return res
       .status(201)
@@ -60,7 +60,7 @@ export const refreshAuthToken = async (req, res) => {
         .status(403)
         .json({ success: false, message: "Refresh Token is not valid" });
   }
-  return res.status(403).json({ success: false, message: error.message });
+  return res.status(401).json({ success: false, message: error.message });
 };
 
 export const userLogout = async (req,res) =>{

@@ -26,6 +26,8 @@ import { useNavigate } from "react-router-dom";
 
 import {showSuccessToast,showErrorToast} from "../../utils/ToastHelper.js";
 
+import { setStoredToken } from "../../utils/axios.js";
+
 const defaultTheme = createTheme();
 
 function Copyright(props) {
@@ -135,20 +137,21 @@ const handlepost = async () => {
       password,
     });
 
-    const { accessToken, success } = response.data;
-    if (!success) {
-      showErrorToast(response.data.message);
-      return;
-    }
-
-   //storing username in localstorage
+    const { accessToken, success, user: { role } } = response.data;
+    //storing username in localstorage
     if (rememberMe) {
       localStorage.setItem("username", username); 
     } else {
       localStorage.removeItem("username");
     }
 
-    localStorage.setItem("accessToken", accessToken); 
+    if (!success) {
+      showErrorToast(response.data.message);
+      return;
+    }
+
+   
+
     navigate("/dash");
     
   } catch (err) {

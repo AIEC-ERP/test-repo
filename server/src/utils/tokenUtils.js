@@ -9,7 +9,7 @@ export const generateAccessToken = async (payload) => {
     return access_token;
   } catch (error) {
     console.error("Error generating access token:", error);
-    return null;
+    throw error;;
   }
 };
 
@@ -22,6 +22,6 @@ export const generateRefreshToken = async (payload) => {
     return refresh_token;
   } catch (error) {
     console.error("Error generating access token:", error);
-    return null;
+    throw error;
   }
 };

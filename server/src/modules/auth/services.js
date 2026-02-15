@@ -4,6 +4,7 @@ import {
   generateRefreshToken,
 } from "../../utils/tokenUtils.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 //Login services (checks user credentials and generating new refresh token and access token)
 export const loginUserAuthentication = async (username, password) => {
@@ -46,7 +47,7 @@ if (user.length === 0) {
         throw new Error("REFRESH_TOKEN_NOT_MATCHING");
     }
     return new Promise((resolve, reject) => {
-      jwt.verify(token,process.env.REFRESH_TOKEN_SECRET,(err,decoded)=>{
+      jwt.verify(token,process.env.REFRESH_TOKEN_SECRET,async(err,decoded)=>{
         if (err || user.id !== decoded.UserInfo.id) {
                      return reject(new Error("INVALID_REFRESH_TOKEN"));
                 }
@@ -58,7 +59,7 @@ if (user.length === 0) {
                         role_id: user.role_id
                     }
                 };
-                const newAccessToken = generateAccessToken(tokenPayload);
+                const newAccessToken = await generateAccessToken(tokenPayload);
                 resolve(newAccessToken);
       })
     })

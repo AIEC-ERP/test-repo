@@ -18,7 +18,7 @@ export const findUserByRefreshToken = async (token) => {
         INNER JOIN system_roles ON users.role_id = system_roles.id
         WHERE refresh_token = ?`;
     const [rows] = await db.query(query,[token]);
-    return rows;
+    return rows.length > 0 ? rows[0] : null;
 }
 
 export const userLogoutQuery = async (token) => {
