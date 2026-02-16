@@ -1,0 +1,100 @@
+/* src/layouts/MainLayout.css */
+
+/* --- 1. THE ROOT CONTAINER (The Frame) --- */
+.app-container {
+  display: flex;
+  flex-direction: column; /* Stack Header on top of Body */
+  height: 100vh; /* Force full screen height */
+  overflow: hidden; /* Prevent the whole page from scrolling */
+}
+
+/* --- 2. THE HEADER (Fixed Top) --- */
+.app-header {
+  height: 64px;
+  background-color: #1a202c; /* Dark Slate */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10; /* Ensure shadow sits on top */
+}
+
+.header-logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 0.9rem;
+}
+
+.logout-btn {
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #c53030;
+}
+
+/* --- 3. THE BODY WRAPPER (Split Left/Right) --- */
+.app-body {
+  display: flex; /* Side-by-side layout */
+  flex: 1; /* Take up all remaining height */
+  overflow: hidden; /* Important! Keeps scrollbars inside inner boxes */
+}
+
+/* --- 4. THE SIDEBAR (Fixed Left) --- */
+.app-sidebar {
+  width: 260px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  overflow-y: auto; /* Scrollable if menu is long */
+}
+
+/* Navigation Links */
+.nav-link {
+  display: block;
+  padding: 12px 24px;
+  color: #4a5568;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  border-left: 4px solid transparent; /* Invisible border for active state */
+}
+
+.nav-link:hover {
+  background-color: #f7fafc;
+  color: #2b6cb0;
+}
+
+/* React Router automatically adds 'active' class via NavLink */
+.nav-link.active {
+  background-color: #ebf8ff;
+  color: #2b6cb0;
+  border-left-color: #2b6cb0; /* Show the active border */
+  font-weight: 600;
+}
+
+/* --- 5. THE CONTENT CANVAS (The Outlet) --- */
+.app-content {
+  flex: 1; /* Take up all remaining width */
+  background-color: #f7fafc; /* Light gray background */
+  padding: 30px;
+  overflow-y: auto; /* INDEPENDENT SCROLLING */
+}

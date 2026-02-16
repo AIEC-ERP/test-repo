@@ -1,71 +1,81 @@
 // src/layouts/MainLayout.jsx
-import { Outlet, Link } from "react-router-dom";
-import { Box, Drawer, AppBar, Toolbar, Typography, List, ListItem, ListItemButton, ListItemText, Button } from "@mui/material";
-import { useAuth } from "../context/AuthContext";
+import { Outlet, NavLink } from "react-router-dom";
 
-const drawerWidth = 240;
+import { useAuth } from "../../context/AuthContext";
+import "./MainLayout.css";
 
 const MainLayout = () => {
-  const { user, logout } = useAuth();
-
+  const { user,logout } = useAuth();
   return (
-    <Box sx={{ display: "flex" }}>
-      {/* --- HEADER --- */}
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Atlas ERP
-          </Typography>
-          <Typography variant="body1" sx={{ mr: 2 }}>
-            {user?.username} ({user?.role})
-          </Typography>
-          <Button color="inherit" onClick={logout}>Logout</Button>
-        </Toolbar>
-      </AppBar>
+    <>
+      <div className="app-container">
+      
+      {/* HEADER SECTION */}
+      <header className="app-header">
+        <div className="header-logo">ATLAS ERP</div>
+        
+        <div className="header-user">
+          <span>
+            {user?.username} <small style={{ opacity: 0.8 }}></small>
+          </span>
+          <button onClick={logout} className="logout-btn">
+            Logout
+          </button>
+        </div>
+      </header>
 
-      {/* --- SIDEBAR --- */}
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: "border-box" },
-        }}
-      >
-        <Toolbar /> {/* Spacer for the AppBar */}
-        <Box sx={{ overflow: "auto" }}>
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton component={Link} to="/dash">
-                <ListItemText primary="Dashboard" />
-              </ListItemButton>
-            </ListItem>
+      {/* BODY SECTION (Sidebar + Content) */}
+      <div className="app-body">
+        
+        {/* SIDEBAR NAVIGATION */}
+        <aside className="app-sidebar">
+          <nav>
+            {/* Common Links */}
+            <NavLink 
+              to="/dashboard" 
+              className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+            >
+              Dashboard
+            </NavLink>
 
-            {/* --- ROLE BASED LINKS --- */}
-            {user?.role === "Admin" && (
-              <ListItem disablePadding>
-                <ListItemButton component={Link} to="/admin/users">
-                  <ListItemText primary="User Management" />
-                </ListItemButton>
-              </ListItem>
+            {/* ROLE-BASED LINKS: Only DIRECTOR or MANAGER sees Inventory */}
+            {['DIRECTOR', 'MANAGER'].includes(user?.role) && (
+              <NavLink 
+                to="/inventory" 
+                className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+              >
+                Inventory
+              </NavLink>
             )}
 
-            {(user?.role === "Admin" || user?.role === "Manager") && (
-              <ListItem disablePadding>
-                <ListItemButton component={Link} to="/inventory">
-                  <ListItemText primary="Inventory" />
-                </ListItemButton>
-              </ListItem>
+            {/* ROLE-BASED LINKS: Only DIRECTOR sees Finance */}
+            {user?.role === 'DIRECTOR' && (
+              <NavLink 
+                to="/finance" 
+                className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+              >
+                Finance Reports
+              </NavLink>
             )}
-          </List>
-        </Box>
-      </Drawer>
 
-      {/* --- CONTENT PAGE (Outlet) --- */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
-        <Outlet />
-      </Box>
-    </Box>
+            <NavLink 
+              to="/settings" 
+              className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+            >
+              Settings
+            </NavLink>
+          </nav>
+        </aside>
+
+        {/* MAIN CONTENT CANVAS */}
+        <main className="app-content">
+          {/* <Outlet /> is the magic window where your pages appear */}
+          <Outlet />
+        </main>
+
+      </div>
+    </div>
+    </>
   );
 };
 

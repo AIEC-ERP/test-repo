@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react";
-// Import setStoredToken so we can sync the Context with Axios
 import apiHelper, { setStoredToken } from "../utils/axios";
 
 const AuthContext = createContext();

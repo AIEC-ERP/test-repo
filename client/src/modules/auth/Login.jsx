@@ -2,48 +2,35 @@ import React, { useState, useEffect, useRef } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-
 import Typography from "@mui/material/Typography";
-
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { showSuccessToast, showErrorToast } from "../../utils/ToastHelper.js";
 
-import {showSuccessToast,showErrorToast} from "../../utils/ToastHelper.js";
-
-import { setStoredToken } from "../../utils/axios.js";
+// --- 1. IMPORTS CHANGED HERE ---
+import apiHelper from "../../utils/axios.js"; // Use the helper, not raw axios
+import { useAuth } from "../../context/AuthContext.jsx"; // Import the Hook
 
 const defaultTheme = createTheme();
 
 function Copyright(props) {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {"Copyright © "}
-      <Link
-        color="inherit"
-        href="https://www.atlas-om.com/"
-        sx={{ px: 0.5 }}
-      >
+      <Link color="inherit" href="https://www.atlas-om.com/" sx={{ px: 0.5 }}>
         Atlas International
       </Link>
       {new Date().getFullYear()}
@@ -53,6 +40,10 @@ function Copyright(props) {
 
 export default function Login() {
   const navigate = useNavigate();
+  
+  // --- 2. GET THE LOGIN FUNCTION FROM CONTEXT ---
+  const { login } = useAuth(); 
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -62,26 +53,19 @@ export default function Login() {
   const passwordRef = useRef(null);
   const usernameRef = useRef(null);
 
-  const api_url = import.meta.env.VITE_API_URL;
-
-
-
   useEffect(() => {
     const savedUsername = localStorage.getItem("username");
     if (savedUsername) {
       setUsername(savedUsername);
       setRememberMe(true);
-      // Autofocus password if username prefilled for faster login
       if (passwordRef.current) {
         passwordRef.current.focus();
       }
-    }
-    else{
-      if(usernameRef.current){
+    } else {
+      if (usernameRef.current) {
         usernameRef.current.focus();
       }
     }
-
   }, []);
 
   const validateForm = () => {
@@ -89,89 +73,73 @@ export default function Login() {
       showErrorToast("Username is required");
       return false;
     }
-      if (password.length === 0) {
+    if (password.length === 0) {
       showErrorToast("Password is required");
       return false;
     }
     if (password.length < 6) {
-      showErrorToast("Password must be at least 6 characters")
+      showErrorToast("Password must be at least 6 characters");
       return false;
     }
     return true;
   };
 
-  const fetchData = async (id) => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.get(
-        `${api_url}/user/getbasicdetails/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      localStorage.setItem(
-        "CurrentUserData",
-        JSON.stringify(response.data.data)
-      );
-    } catch (err) {
-      console.error("error fetching user details", err);
-      showErrorToast("Internal Server Issue. Please contact the administrator")
-    }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await handlepost();
   };
 
- 
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  await handlepost();
-};
+  const handlepost = async () => {
+    if (!validateForm()) return;
+    setLoading(true);
 
-const handlepost = async () => {
-  if (!validateForm()) return;
-  setLoading(true);
+    try {
+      // --- 3. USE apiHelper (Handles Base URL automatically) ---
+      const response = await apiHelper.post(`/auth/login`, {
+        username,
+        password,
+      });
 
-  try {
-    const response = await axios.post(`${api_url}/auth/login`, {
-      username,
-      password,
-    });
+      // Destructure the response from your backend
+      const { success, message, access_token, user } = response.data;
 
-    const { accessToken, success, user: { role } } = response.data;
-    //storing username in localstorage
-    if (rememberMe) {
-      localStorage.setItem("username", username); 
-    } else {
-      localStorage.removeItem("username");
+      if (!success) {
+        showErrorToast(message || "Login failed");
+        return;
+      }
+
+      // Handle "Remember Me" for username
+      if (rememberMe) {
+        localStorage.setItem("username", username);
+      } else {
+        localStorage.removeItem("username");
+      }
+
+      // --- 4. CRITICAL FIX: UPDATE GLOBAL CONTEXT ---
+      // This tells the rest of the app "We are logged in!"
+      login(access_token, user);
+
+      showSuccessToast("Login Successful");
+
+      // Now navigate (The ProtectedRoute will now let you pass)
+      navigate("/dash", { replace: true });
+
+    } catch (err) {
+      console.error("Login error:", err);
+      // specific error message from backend if available
+      const errorMessage = err.response?.data?.message || "Error during login. Please contact administrator";
+      showErrorToast(errorMessage);
+    } finally {
+      setLoading(false);
     }
-
-    if (!success) {
-      showErrorToast(response.data.message);
-      return;
-    }
-
-   
-
-    navigate("/dash");
-    
-  } catch (err) {
-    console.error("Login error:", err);
-    showErrorToast("Error during login. Please contact the administrator")
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+  };
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
-
   };
 
   return (
