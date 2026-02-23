@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { showErrorToast,showSuccessToast } from "../../utils/ToastHelper";
+import axios from "axios";
 import apiHelper from "../../utils/axios";
 
 const Login = () => {
@@ -9,41 +11,63 @@ const Login = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Bring in the login function from our context
-  const { login } = useAuth(); 
+    const { login } = useAuth(); 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    // username validation
+    if (!username || username.trim() === "") {
+      showErrorToast("Username cannot be empty");
+      return; 
+    }
+    if (username.length < 6) {
+      showErrorToast("Username must be at least 6 characters");
+      return; 
+    }
+    if (username.length > 20) {
+      showErrorToast("Username cannot exceed 20 characters");
+      return;
+    }
+
+   //password validation
+    if (!password) {
+      showErrorToast("Password cannot be empty");
+      return;
+    }
+    if (password.length < 6) {
+      showErrorToast("Password must be at least 6 characters");
+      return;
+    }
     setIsSubmitting(true);
 
     try {
-      // 1. Call your Express backend login API
       const response = await apiHelper.post("/auth/login", {
         username,
         password,
       });
 
-      // 2. Check your backend's specific "success" flag
       if (response.data.success) {
         const { access_token, user } = response.data;
-
-        // 3. Pass the data to your AuthContext 
-        // (This saves the user to state and the token to memory/axios)
         login(access_token, user);
-
-        // 4. Redirect to the dashboard
+        showSuccessToast("LoggedIn successfully");
         navigate("/dashboard");
-      } else {
-        setError(response.data.message || "Login failed");
       }
-    } catch (err) {
+    }catch (err) {
       console.error("Login Error:", err);
-      // Safely grab the error message from the backend if it exists
-      setError(
-        err.response?.data?.message || "Something went wrong connecting to the server."
-      );
+      const serverResponse = err.response?.data;
+      if(serverResponse?.message==="Validation Error"){
+        showErrorToast(Object.values(serverResponse.errors)[0])
+      }
+ 
+      else if (serverResponse && serverResponse.message) {
+        showErrorToast(serverResponse.message);
+      } 
+      else {
+        const fallbackMessage = "Something went wrong connecting to the server.";
+        showErrorToast(fallbackMessage);
+      }
     } finally {
       setIsSubmitting(false);
     }

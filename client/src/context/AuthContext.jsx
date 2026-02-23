@@ -8,29 +8,27 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
 
-  // // 1. Silent Refresh (Runs once on App Load)
-  // useEffect(() => {
-  //   const refreshAuth = async () => {
-  //     try {
-  //       // This calls the backend to check the HttpOnly Cookie
-  //       const { data } = await apiHelper.get("/auth/refresh"); 
+  
+  //After logging in, incase of page refresh, access token expires. This is the function to fetch the new access token and store it in the axios variable.
+  useEffect(() => {
+    const refreshAuth = async () => {
+      try {
+        const { data } = await apiHelper.get("/auth/refresh"); 
         
-  //       // SYNC: Update the memory variable in axios.js
-  //       setStoredToken(data.access_token); 
-        
-  //       // Update React State
-  //       setUser(data.user);
-  //     } catch (error) {
-  //       console.log("No active session");
-  //       setStoredToken(null);
-  //       setUser(null);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+        // SYNC: Update the memory variable in axios.js
+        setStoredToken(data.access_token); 
+        setUser(data.user);
+      } catch (error) {
+        console.log("No active session");
+        setStoredToken(null);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   refreshAuth();
-  // }, []);
+    refreshAuth();
+  }, []);
 
   // 2. Login Function (To be used in Login.jsx)
   const login = (accessToken, userData) => {
@@ -51,8 +49,8 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, login, logout, loading }}>
-      {/* {!loading && children} */}
-      {children}
+      {!loading && children}
+      {/* {children} */}
     </AuthContext.Provider>
   );
 };

@@ -17,3 +17,4 @@ INSERT INTO system_roles (role_name, description) VALUES
 ('TENDER_ADMIN',     'Tender Staff - Estimation'),
 ('PROJECT_MANAGER',     'Project Leads - Operational Approvals and General Managers'),
 ('EMPLOYEE',        'General Staff - Self Service');
+('GUEST', 'Guest Login')

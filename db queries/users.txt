@@ -1,6 +1,5 @@
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    employee_pk INT UNSIGNED NOT NULL, 
     username VARCHAR(20) NOT NULL UNIQUE,  
     role_id INT UNSIGNED NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -10,7 +9,6 @@ CREATE TABLE users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (employee_pk) REFERENCES employees(id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES system_roles(id)
 )
 

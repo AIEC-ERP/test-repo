@@ -1,0 +1,67 @@
+/* src/pages/NotFoundPage.css */
+
+.notfound-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f6fa; /* subtle light gray background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+.notfound-card {
+  background-color: #ffffff; /* white card */
+  text-align: center;
+  padding: 50px 30px;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.notfound-title {
+  font-size: 6rem;
+  font-weight: bold;
+  color: #2f3640; /* dark gray */
+  margin-bottom: 20px;
+}
+
+.notfound-subtitle {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #718093;
+  margin-bottom: 20px;
+}
+
+.notfound-message {
+  font-size: 1rem;
+  color: #95a5a6;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.notfound-button {
+  background-color: #0097e6; /* ERP-style primary color */
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.notfound-button:hover {
+  background-color: #007bb5;
+  transform: translateY(-2px);
+}
+
+.notfound-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #718093;
+}
