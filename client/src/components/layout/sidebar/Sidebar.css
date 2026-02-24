@@ -1,0 +1,20 @@
+/* Sidebar.css */
+
+/* 1. The Default (Open) State */
+.sidebar {
+  width: 250px;
+  background-color: #1f2937;
+  color: white;
+  
+  /* This tells the browser to animate the width smoothly */
+  transition: width 0.3s ease; 
+  
+  /* These prevent text from wrapping to the next line when the box shrinks */
+  overflow-x: hidden; 
+  white-space: nowrap; 
+}
+
+/* 2. The Collapsed State */
+.sidebar.collapsed {
+  width: 70px;
+}

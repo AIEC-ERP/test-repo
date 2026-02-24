@@ -46,6 +46,9 @@ const user = await findUserByRefreshToken(token);
 if (user.length === 0) {
         throw new Error("REFRESH_TOKEN_NOT_MATCHING");
     }
+    if (!user) {
+        throw new Error("REFRESH_TOKEN_NOT_MATCHING");
+    }
     return new Promise((resolve, reject) => {
       jwt.verify(token,process.env.REFRESH_TOKEN_SECRET,async(err,decoded)=>{
         if (err || user.id !== decoded.UserInfo.id) {
@@ -60,7 +63,13 @@ if (user.length === 0) {
                     }
                 };
                 const newAccessToken = await generateAccessToken(tokenPayload);
-                resolve(newAccessToken);
+                const fetched_user = {
+                   id: user.id,
+                        username: user.username,
+                        role: user.role_name,
+                        role_id: user.role_id
+                }
+                resolve({newAccessToken: newAccessToken,user:fetched_user});
       })
     })
 }

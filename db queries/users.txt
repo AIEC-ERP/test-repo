@@ -11,4 +11,3 @@ CREATE TABLE users (
 
     FOREIGN KEY (role_id) REFERENCES system_roles(id)
 )
-

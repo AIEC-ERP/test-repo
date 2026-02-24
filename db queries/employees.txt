@@ -63,6 +63,7 @@ CREATE TABLE `employees` (
   `account_number` varchar(50) DEFAULT NULL,
   `name_as_in_bank` varchar(100) DEFAULT NULL,
   `remarks` varchar(1000) DEFAULT NULL,
+  `user_id` VARCHAR(20) DEFAULT NULL,
   `emp_live_status` TINYINT DEFAULT (1),
    check(emp_live_status IN (0,1)),
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -71,5 +72,8 @@ CREATE TABLE `employees` (
   UNIQUE KEY `employee_id` (`employee_id`),
   FOREIGN KEY (reporting_manager_id) REFERENCES employees(id),
   FOREIGN KEY (department) REFERENCES departments(id),
-  FOREIGN KEY (designation) REFERENCES designation (id)
+  FOREIGN KEY (designation) REFERENCES designation (id),
+  CONSTRAINT fk_username 
+    FOREIGN KEY (user_id) REFERENCES users(username) ON DELETE SET NULL
+     
 )

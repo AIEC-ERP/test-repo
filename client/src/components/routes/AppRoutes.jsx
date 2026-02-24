@@ -21,7 +21,17 @@ const AppRoutes = () => {
           
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Route>
-
+      </Route>
+       <Route element={<ProtectedRoutes allowedRoles={["HR_MANAGER", "DIRECTOR", "SUPER_ADMIN"]} />}>
+        <Route element={<MainLayout />}>
+          {/* <Route path="/hrdash" element={<HRDashboard />} /> */}
+          <Route path="/employees" element={<div>Employee List</div>} />
+        </Route>
+      </Route>
+       <Route element={<ProtectedRoutes allowedRoles={["FINANCE_MANAGER", "ACCOUNTANT", "DIRECTOR", "SUPER_ADMIN"]} />}>
+        <Route element={<MainLayout />}>
+          {/* <Route path="/finance/dashboard" element={<FinanceDashboard />} /> */}
+        </Route>
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

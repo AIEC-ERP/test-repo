@@ -12,7 +12,7 @@ const app = express();
 app.use(helmet());
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow all origins
+  origin: 'http://localhost:3001', // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization','token'],
   credentials: true,

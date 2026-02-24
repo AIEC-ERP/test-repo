@@ -45,13 +45,14 @@ export const refreshAuthToken = async (req, res) => {
   }
   try {
     const RefreshToken = cookies.refresh_token;
-    const newAccessToken = await refreshUserToken(RefreshToken);
+    const fetchedresult = await refreshUserToken(RefreshToken);
     return res
       .status(201)
       .json({
         success: true,
         message: "Access Token Generated Successfully",
-        access_token: newAccessToken,
+        access_token: fetchedresult.newAccessToken,
+        user: fetchedresult.user
       });
   } catch (error) {
     console.log("Error Generating Access Token:", error);

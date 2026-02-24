@@ -139,6 +139,7 @@ CREATE TABLE `employees` (
   `account_number` varchar(50) DEFAULT NULL,
   `name_as_in_bank` varchar(100) DEFAULT NULL,
   `remarks` varchar(1000) DEFAULT NULL,
+  `user_id` varchar(20) DEFAULT NULL,
   `emp_live_status` tinyint(4) DEFAULT 1,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `last_updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -147,9 +148,11 @@ CREATE TABLE `employees` (
   KEY `reporting_manager_id` (`reporting_manager_id`),
   KEY `employee_department` (`department`),
   KEY `employee_designation` (`designation`),
+  KEY `fk_username` (`user_id`),
   CONSTRAINT `employee_department` FOREIGN KEY (`department`) REFERENCES `departments` (`id`),
   CONSTRAINT `employee_designation` FOREIGN KEY (`designation`) REFERENCES `designations` (`id`),
   CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`reporting_manager_id`) REFERENCES `employees` (`id`),
+  CONSTRAINT `fk_username` FOREIGN KEY (`user_id`) REFERENCES `users` (`username`) ON DELETE SET NULL,
   CONSTRAINT `CONSTRAINT_1` CHECK (`is_reporting_manager` in (0,1)),
   CONSTRAINT `CONSTRAINT_2` CHECK (`pasi_eligibility` in (0,1)),
   CONSTRAINT `CONSTRAINT_3` CHECK (`emp_live_status` in (0,1))
@@ -162,7 +165,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (1,'AEC001','Test','User',1,1,0,1,NULL,NULL,NULL,NULL,NULL,'Omani',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0.000,0.000,0.000,0.000,0.000,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'2026-02-03 07:58:45','2026-02-03 07:59:54');
+INSERT INTO `employees` VALUES (1,'AEC001','Test','User',1,1,0,1,NULL,NULL,NULL,NULL,NULL,'Omani',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0.000,0.000,0.000,0.000,0.000,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'AEC001',1,'2026-02-03 07:58:45','2026-02-24 07:41:35');
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +206,6 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `employee_pk` int(10) unsigned NOT NULL,
   `username` varchar(20) NOT NULL,
   `role_id` int(10) unsigned NOT NULL,
   `password_hash` varchar(255) NOT NULL,
@@ -214,10 +216,8 @@ CREATE TABLE `users` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  KEY `employee_pk` (`employee_pk`),
   KEY `role_id` (`role_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`employee_pk`) REFERENCES `employees` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `users_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `system_roles` (`id`)
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `system_roles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -227,7 +227,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,1,'AEC001',1,'$2b$10$Yeg4A7AfrJrwZCzYWRpS9.cKI82vKincSIN29csVz4rBWP2AMFBLa','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJpZCI6MSwidXNlcm5hbWUiOiJBRUMwMDEiLCJyb2xlIjoiRElSRUNUT1IifSwiaWF0IjoxNzcxODMyODkwLCJleHAiOjE3NzI0Mzc2OTB9.2GkydkIZ6vMKHqr5811o4ZW-hIcLwSUhyVVYUkS-YkQ',1,NULL,'2026-02-03 12:01:50','2026-02-23 11:48:10');
+INSERT INTO `users` VALUES (1,'AEC001',1,'$2b$10$Yeg4A7AfrJrwZCzYWRpS9.cKI82vKincSIN29csVz4rBWP2AMFBLa','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJpZCI6MSwidXNlcm5hbWUiOiJBRUMwMDEiLCJyb2xlIjoiRElSRUNUT1IifSwiaWF0IjoxNzcxOTI2MDI1LCJleHAiOjE3NzI1MzA4MjV9.cJugzY4CbQeo76-YFIZFR-06yMg3NPyj6zsQiJB0EM4',1,NULL,'2026-02-24 11:28:43','2026-02-24 13:40:25');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -240,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-02-23 13:40:20
+-- Dump completed on 2026-02-24 14:02:37
