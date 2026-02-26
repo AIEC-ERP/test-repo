@@ -45,7 +45,7 @@ const Breadcrumbs = () => {
             <span style={{ margin: "0 8px" }}>/</span>
             {isLast ? (
               // The current page is just plain text
-              <span style={{ color: "#1f2937", fontWeight: "600" }}>{title}</span>
+              <span style={{ color: "#1f2937", fontWeight: "600" }}>{title }</span>
             ) : (
               // Previous pages are clickable links
               <Link to={to} style={{ color: "#3b82f6", textDecoration: "none" }}>

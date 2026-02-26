@@ -20,6 +20,7 @@ const Header = ({ toggleSidebar }) => {
       
       <h2 style={{ marginLeft: '1rem', fontSize: '1.25rem', color: '#1f2937' }}>
         Header Content
+        வணக்கம் உலகம்!
       </h2>
     </header>
   );
