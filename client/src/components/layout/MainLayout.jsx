@@ -16,13 +16,13 @@ const MainLayout = () => {
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       
       {/* Sidebar stays fixed on the left */}
-      <Sidebar isOpen={isSidebarOpen} /> 
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /> 
 
       {/* Main content area takes up the rest of the screen */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         
         {/* Header stays at the top */}
-        <Header toggleSidebar={toggleSidebar} /> 
+        <Header toggleSidebar={toggleSidebar}  isOpen={isSidebarOpen}/> 
 
         {/* Scrollable content area */}
         <main style={{ flex: 1, padding: '1.5rem', overflowY: 'auto', backgroundColor: '#f3f4f6' }}>

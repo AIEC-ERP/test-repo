@@ -1,9 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const handleAboutnavigation = (e) =>{
+    e.preventDefault();
+    console.log("function executed")
+    navigate("/about");
+  }
   return (
     <>
       <div>Dashboard</div>
+      <div>
+      <button type="button" onClick={(e)=>{
+        handleAboutnavigation(e);
+      }}>About Page</button>
+      </div>
       Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis
       nemo animi, eaque suscipit repellendus dolorem. Consequuntur ipsa
       voluptatum nostrum asperiores nihil corrupti dicta deserunt quis maiores

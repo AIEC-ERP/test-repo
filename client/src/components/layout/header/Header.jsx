@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = ({ toggleSidebar }) => {
+const Header = ({ toggleSidebar, isOpen}) => {
   return (
     <header style={{ 
       height: '64px', 
@@ -10,17 +10,22 @@ const Header = ({ toggleSidebar }) => {
       alignItems: 'center',
       padding: '0 1.5rem'
     }}>
-      {/* This button fires the function in MainLayout */}
+      {isOpen === false?
+      <>
       <button 
         onClick={toggleSidebar} 
         style={{ cursor: 'pointer', fontSize: '1.5rem', background: 'none', border: 'none' }}
       >
         ☰
       </button>
+      </>
+         :null
+      }
+      {/* This button fires the function in MainLayout */}
+     
       
       <h2 style={{ marginLeft: '1rem', fontSize: '1.25rem', color: '#1f2937' }}>
         Header Content
-        வணக்கம் உலகம்!
       </h2>
     </header>
   );

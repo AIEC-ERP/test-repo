@@ -6,6 +6,7 @@ import Dashboard from '../../modules/dashboard/Dashboard';
 import ProtectedRoutes from './ProtectedRoutes';
 import NotFoundPage from '../common/404/NotFoundPage';
 import MainLayout from '../layout/MainLayout';
+import About from '../../modules/dashboard/About';
 
 const AppRoutes = () => {
   return (
@@ -18,7 +19,8 @@ const AppRoutes = () => {
        
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          
+          <Route path="/about" element={<About/>} />
+           
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Route>

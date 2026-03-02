@@ -2,6 +2,7 @@
 
 /* 1. The Default (Open) State */
 .sidebar {
+   position: relative; /* Needed for absolute positioning */
   width: 250px;
   background-color: #1f2937;
   color: white;
@@ -14,7 +15,29 @@
   white-space: nowrap; 
 }
 
+.close-btn {
+  position: absolute;
+  top: 23px;
+  right: -1px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+
 /* 2. The Collapsed State */
 .sidebar.collapsed {
   width: 70px;
+}
+@media (max-width: 768px) {
+
+  /* When open on mobile */
+  .sidebar {
+    width: 250px;
+  }
+
+  .sidebar.collapsed {
+    width: 0px;
+  }
 }
