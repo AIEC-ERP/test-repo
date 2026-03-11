@@ -4,8 +4,8 @@
 .sidebar {
    position: relative; /* Needed for absolute positioning */
   width: 250px;
-  background-color: #1f2937;
-  color: white;
+  background-color: #f9f7fd;
+  color: black;
   
   /* This tells the browser to animate the width smoothly */
   transition: width 0.3s ease; 
@@ -13,6 +13,11 @@
   /* These prevent text from wrapping to the next line when the box shrinks */
   overflow-x: hidden; 
   white-space: nowrap; 
+  box-shadow: 2px 0 8px #0000001a;
+  z-index: 1000;
+  overflow-y: hidden;
+    overflow-x: hidden;
+    border-right: 1px solid #dee2e6;
 }
 
 .close-btn {
@@ -21,9 +26,12 @@
   right: -1px;
   background: transparent;
   border: none;
-  color: white;
+  color: black;
   cursor: pointer;
   font-size: 20px;
+}
+.logo{
+  
 }
 
 /* 2. The Collapsed State */

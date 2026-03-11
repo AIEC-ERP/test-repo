@@ -4,7 +4,7 @@ const Header = ({ toggleSidebar, isOpen}) => {
   return (
     <header style={{ 
       height: '64px', 
-      backgroundColor: 'white', 
+      backgroundColor: '#f9f7fd', 
       borderBottom: '1px solid #e5e7eb',
       display: 'flex',
       alignItems: 'center',
